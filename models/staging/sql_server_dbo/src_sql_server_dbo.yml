@@ -1,0 +1,330 @@
+# OBLIGATORIO INDICAR LA VERSIÓN DEL ARCHIVO
+version: 2
+
+#DATOS DEL PROPIO ARCHIVO Y DONDE REFERENCIARSE
+sources:
+
+  - name: sql_server_dbo # NOMBRE DE EJECUCIÓN DENTRO DE DBT 
+    schema: sql_server_dbo # SCHEMA AL QUE LLAMAMOS
+    database: dev_bronze_db_alumno27 # DB EN LA QUE SE ENCUENTRA
+
+# INDICAR SI ES NECESARIO INTRODUCIR LOS VALORES CON COMILLAS
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+# PERIODO DE REFRESCO DE DATOS, INDICANDO CUANDO QUEREMOS QUE NOS ALERTE SI NO SE HA ACTULIZADO
+#    freshness:
+#      warn_after: {count: 24, period: hour}
+#      error_after: {count: 48, period: hour}
+
+# INTRODUCIR LA TABLA O TABLAS QUE SE QUIEREN LLAMAR, IMPORTANTE LA TABULACIÓN 
+    tables:
+      - name: addresses
+#        loaded_at_field: _fivetran_synced
+        description: "Direcciónes de usuarios"
+        columns:
+          - name: address_id
+            test:
+              - unique
+              - not null
+              - relationships:
+                  to: source('sql_server_dbo','users')
+                  field: address_id
+            description: "Identificador de dirección"
+          - name: country
+            test:
+              - not null
+            description: "Pais"
+          - name: zipcode
+            test:
+              - not null
+            description: "Codigo postal"
+          - name: address
+            test:
+              - not null
+            description: "Dirección"
+          - name: state
+            test:
+              - not null
+            description: "Estado"
+          - name: _fivetran_deleted
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha sincronización"
+
+      - name: events
+#        loaded_at_field: _fivetran_synced
+        description: "Tabla de eventos generados en la web"
+        columns:
+          - name: event_id
+            test:
+              - unique
+              - not null
+            description: "Identificador de Evento"
+          - name: product_id
+            test:
+              - not null
+              - relationships:
+                  to: source('sql_server_dbo','products')
+                  field: product_id
+            description: "Identificador Producto"
+          - name: session_id
+            test:
+              - not null
+            description: "Identificador Sesión"
+          - name: page_url
+            test:
+              - not null
+            description: "Url de evento"
+          - name: order_id
+            test:
+              - unique
+              - not null
+            description: "Identificador de pedido"
+          - name: user_id
+            test:
+              - not null
+            description: "Identificador de Usuario"
+          - name: event_type
+            test:
+              - not null
+              - accepted_values: 
+                  values: ['page_view','add_to_car','checkout','package_shipped']
+            description: "Tipo de Evento"
+          - name: created_at
+            description: "Fecha de creación del evento"
+          - name: _fivetran_deleted
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha sincronización"
+
+      - name: fivetran_audit
+#        loaded_at_field: _fivetran_synced
+        description: "Datos generados por Fivetran"
+        columns:
+          - name: id
+            description: "Identificador"
+          - name: message
+            description: "Mensaje"
+          - name: update_started
+            description: "Fecha actualización"
+          - name: update_id
+            description: "Identificador de actualización"
+          - name: schema
+            description: "Esquema al que corresponde"
+          - name: table
+            description: "Tabla a la que corresponde"
+          - name: start
+            description: "Inicio de transferencia"
+          - name: done
+            description: "Fin de transferencia"
+          - name: rows_updated_or_inserted
+            description: "Número de filas actualizadas"
+          - name: status
+            description: "Estado"
+          - name: progress
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha de sincronización"
+
+      - name: order_items
+#        loaded_at_field: _fivetran_synced
+        description: "Cantidades pedidas de productos"
+        columns:
+          - name: order_id
+            test:
+              - not null
+              - relationships:
+                  to: source('sql_server_dbo','events')
+                  field: order_id
+            description: "Identificador de pedido"
+          - name: product_id
+            test:
+              - not null
+            description: "Identificador de producto"
+          - name: quantity
+            test:
+              - not null
+              - positive_values
+            description: "Cantidad de producto pedido"
+          - name: _fivetran_deleted
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha de sincronización"
+
+      - name: orders
+#        loaded_at_field: _fivetran_synced
+        description: "Pedidos"
+        columns:
+          - name: order_id
+            test:
+              - unique
+              - not null
+              - relationships:
+                  to: source('sql_server_dbo','order_items')
+                  field: order_id
+            description: "Identificador de Pedido"
+          - name: order_cost
+            test:
+              - not null
+              - positive_values
+            description: "coste de pedido"
+          - name: user_id
+            test:
+              - not null
+            description: "Identificador de usuario en el pedido"
+          - name: order_total
+            test:
+              - not null
+              - positive_values
+            description: "coste total de pedido"
+          - name: delivered_at
+            description: "Fecha de envio, EL SISTEMA TRANSACCIONAL NO ME APORTA ESTE DATO Y NO HAY FORMA DE SACARLO"
+          - name: status
+            test:
+              - not null
+              - accepted_values: 
+                  values: ['delivered','preparing','shipped']
+            description: "Estado en el que se encuentra el pedido"
+          - name: promo_id
+            test:
+              - not null
+            description: "Identificador de promoción"
+          - name: address_id
+            test:
+              - not null
+            description: "Identificador de dirección de entrega"
+          - name: tracking_id
+            test:
+              - not null
+            description: "Identificador de seguimiento de pedido"
+          - name: shipping_service
+            test:
+              - not null
+            description: "Empresa de transportes"
+          - name: created_at
+            test:
+              - not null
+            description: "Creación de Pedido"
+          - name: shipping_cost
+            test:
+              - not null
+              - positive_values
+            description: "Costes de envio"
+          - name: estimated_delivery_at
+            description: "Fecha estimada de entrega"
+          - name: _fivetran_deleted
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha de sincronización"
+
+      - name: products
+#        loaded_at_field: _fivetran_synced
+        description: "Productos dados de alta"
+        columns:
+          - name: product_id
+
+            description: "Identificador de Producto"
+          - name: name
+            test:
+              - unique
+              - not null
+              - relationships:
+                  to: source('sql_server_dbo','events')
+                  field: product_id
+            description: "Nombre de producto"
+          - name: inventory
+            test:
+              - not null
+              - positive_values
+            description: "Cantidad en Stock"
+          - name: price
+            test:
+              - not null
+              - positive_values
+            description: "Precio Unitario"
+          - name: _fivetran_deleted
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha de sincronización"
+
+      - name: promos
+#        loaded_at_field: _fivetran_synced
+        description: "Promociones"
+        columns:
+          - name: promo_id
+            test:
+              - unique
+              - not null
+              - relationships:
+                  to: source('sql_server_dbo','orders')
+                  field: promo_id
+            description: "Identificador de Promoción"
+          - name: status
+            test:
+              - not null
+              - accepted_values: 
+                  values: ['inactive','active']
+            description: "Si la promoción se encuentra activa o inactiva"
+          - name: discount
+            test:
+              - not null
+              - positive_values
+            description: "Cantidad en porcentaje de descuento"
+          - name: _fivetran_deleted
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha de sincronización"
+
+      - name: users
+#        loaded_at_field: _fivetran_synced
+        description: "Usuarios registrados"
+        columns:
+          - name: user_id
+            test:
+              - unique
+              - not null
+              - relationships:
+                  to: source('sql_server_dbo','orders')
+                  field: user_id
+            description: "Identificador de Usuario"
+          - name: created_at
+            test:
+              - not null
+            description: "Fecha de alta"
+          - name: updated_at
+            description: "Fecha de actualización de datos de usuario"
+          - name: address_id
+            test:
+              - not null
+            description: "Identificador de datos"
+          - name: last_name
+            test:
+              - not null
+            description: "Apellidos"
+          - name: total_orders
+            test:
+              - not null
+              - positive_values
+            description: "Pedidos realizados por usuario"
+          - name: first_name
+            test:
+              - not null
+            description: "Nombre propio"
+          - name: email
+            test:
+              - not null
+            description: "Email"
+          - name: phone_number
+            test:
+              - not null
+            description: "Telefono de contacto"
+          - name: _fivetran_deleted
+            description: ""
+          - name: _fivetran_synced
+            description: "Fecha de sincronización"
+        
+
+      

@@ -1,0 +1,65 @@
+# OBLIGATORIO INDICAR LA VERSIÓN DEL ARCHIVO
+version: 2
+
+#DATOS DEL PROPIO ARCHIVO Y DONDE REFERENCIARSE
+sources:
+
+  - name: google_sheets # NOMBRE DE EJECUCIÓN DENTRO DE DBT 
+    schema: google_sheets # SCHEMA AL QUE LLAMAMOS
+    database: dev_bronze_db_alumno27 # DB EN LA QUE SE ENCUENTRA
+
+# INDICAR SI ES NECESARIO INTRODUCIR LOS VALORES CON COMILLAS
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+# PERIODO DE REFRESCO DE DATOS, INDICANDO CUANDO QUEREMOS QUE NOS ALERTE SI NO SE HA ACTULIZADO
+#    freshness:
+#      warn_after: {count: 24, period: hour}
+#      error_after: {count: 48, period: hour}
+
+# INTRODUCIR LA TABLA O TABLAS QUE SE QUIEREN LLAMAR, IMPORTANTE LA TABULACIÓN 
+
+ tables:
+      - name: budget
+        description: "Presupuesto - Esta tabla indica una propuesta"
+        columns:
+          - name: _row
+            description: ""
+          - name: quantity
+            description: ""
+          - name: month
+            description: ""
+          - name: product_id
+            description: ""
+          - name: _fivetran_synced
+            description: ""
+
+      - name: fivetran_audit
+        description: ""
+        columns:
+          - name: id
+            description: ""
+          - name: message
+            description: ""
+          - name: update_started
+            description: ""
+          - name: update_id
+            description: ""
+          - name: schema
+            description: ""
+          - name: table
+            description: ""
+          - name: start
+            description: ""
+          - name: done
+            description: ""
+          - name: rows_updated_or_inserted
+            description: ""
+          - name: status
+            description: ""
+          - name: progress
+            description: ""
+          - name: _fivetran_synced
+            description: ""
