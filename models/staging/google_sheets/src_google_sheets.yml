@@ -3,10 +3,9 @@ version: 2
 
 #DATOS DEL PROPIO ARCHIVO Y DONDE REFERENCIARSE
 sources:
-
-  - name: google_sheets # NOMBRE DE EJECUCIÓN DENTRO DE DBT 
-    schema: google_sheets # SCHEMA AL QUE LLAMAMOS
-    database: dev_bronze_db_alumno27 # DB EN LA QUE SE ENCUENTRA
+  - name: google_sheets
+    schema: GOOGLE_SHEETS
+    database: DEV_BRONZE_DB_ALUMNO27
 
 # INDICAR SI ES NECESARIO INTRODUCIR LOS VALORES CON COMILLAS
     quoting:
@@ -14,25 +13,23 @@ sources:
       schema: false
       identifier: false
 
-# PERIODO DE REFRESCO DE DATOS, INDICANDO CUANDO QUEREMOS QUE NOS ALERTE SI NO SE HA ACTULIZADO
-#    freshness:
-#      warn_after: {count: 24, period: hour}
-#      error_after: {count: 48, period: hour}
 
 # INTRODUCIR LA TABLA O TABLAS QUE SE QUIEREN LLAMAR, IMPORTANTE LA TABULACIÓN 
 
- tables:
+    tables:
       - name: budget
-        description: "Presupuesto - Esta tabla indica una propuesta"
+        description: "Tabla previsiones de venta/Historico de ventas por producto/"
         columns:
           - name: _row
-            description: ""
+            description: "Indicador de fila"
           - name: quantity
-            description: ""
+            test:
+              - not null
+            description: "Cantidad prevista"
           - name: month
-            description: ""
+            description: "Mes de registro"
           - name: product_id
-            description: ""
+            description: "Identificador de producto"
           - name: _fivetran_synced
             description: ""
 

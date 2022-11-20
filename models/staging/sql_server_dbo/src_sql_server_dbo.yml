@@ -90,8 +90,6 @@ sources:
           - name: event_type
             test:
               - not null
-              - accepted_values: 
-                  values: ['page_view','add_to_car','checkout','package_shipped']
             description: "Tipo de Evento"
           - name: created_at
             description: "Fecha de creación del evento"
