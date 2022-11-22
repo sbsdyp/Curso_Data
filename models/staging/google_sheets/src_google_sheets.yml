@@ -1,0 +1,67 @@
+# OBLIGATORIO INDICAR LA VERSIÓN DEL ARCHIVO
+version: 2
+
+#DATOS DEL PROPIO ARCHIVO Y DONDE REFERENCIARSE
+sources:
+  - name: google_sheets
+    schema: google_sheets
+    database: |  
+        {%- if  target.name == 'user_dev' -%} dev_bronze_db_alumno27 
+        {%- elif target.name == 'ci' -%} dev_bronze_db_alumno27 
+        {%- elif target.name == 'pro'-%} pro_bronze_db_alumno27 
+        {%- else -%} {{target.database}}_bronze_db_alumno27
+        {%- endif -%}
+
+# INDICAR SI ES NECESARIO INTRODUCIR LOS VALORES CON COMILLAS
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+
+# INTRODUCIR LA TABLA O TABLAS QUE SE QUIEREN LLAMAR, IMPORTANTE LA TABULACIÓN 
+
+    tables:
+      - name: budget
+        description: "Tabla previsiones de venta/Historico de ventas por producto/"
+        columns:
+          - name: _row
+            description: "Indicador de fila"
+          - name: quantity
+            test:
+              - not null
+            description: "Cantidad prevista"
+          - name: month
+            description: "Mes de registro"
+          - name: product_id
+            description: "Identificador de producto"
+          - name: _fivetran_synced
+            description: ""
+
+      - name: fivetran_audit
+        description: ""
+        columns:
+          - name: id
+            description: ""
+          - name: message
+            description: ""
+          - name: update_started
+            description: ""
+          - name: update_id
+            description: ""
+          - name: schema
+            description: ""
+          - name: table
+            description: ""
+          - name: start
+            description: ""
+          - name: done
+            description: ""
+          - name: rows_updated_or_inserted
+            description: ""
+          - name: status
+            description: ""
+          - name: progress
+            description: ""
+          - name: _fivetran_synced
+            description: ""
