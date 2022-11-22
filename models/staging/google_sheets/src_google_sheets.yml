@@ -4,8 +4,13 @@ version: 2
 #DATOS DEL PROPIO ARCHIVO Y DONDE REFERENCIARSE
 sources:
   - name: google_sheets
-    schema: GOOGLE_SHEETS
-    database: DEV_BRONZE_DB_ALUMNO27
+    schema: google_sheets
+    database: |  
+        {%- if  target.name == 'user_dev' -%} dev_bronze_db_alumno27 
+        {%- elif target.name == 'ci' -%} dev_bronze_db_alumno27 
+        {%- elif target.name == 'pro'-%} pro_bronze_db_alumno27 
+        {%- else -%} {{target.database}}_bronze_db_alumno27
+        {%- endif -%}
 
 # INDICAR SI ES NECESARIO INTRODUCIR LOS VALORES CON COMILLAS
     quoting:

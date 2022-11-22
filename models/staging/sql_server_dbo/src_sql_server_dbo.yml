@@ -6,7 +6,12 @@ sources:
 
   - name: sql_server_dbo # NOMBRE DE EJECUCIÓN DENTRO DE DBT 
     schema: sql_server_dbo # SCHEMA AL QUE LLAMAMOS
-    database: dev_bronze_db_alumno27 # DB EN LA QUE SE ENCUENTRA
+    database: |  
+        {%- if  target.name == 'user_dev' -%} dev_bronze_db_alumno27 
+        {%- elif target.name == 'ci' -%} dev_bronze_db_alumno27 
+        {%- elif target.name == 'pro'-%} pro_bronze_db_alumno27 
+        {%- else -%} {{target.database}}_bronze_db_alumno27
+        {%- endif -%}
 
 # INDICAR SI ES NECESARIO INTRODUCIR LOS VALORES CON COMILLAS
     quoting:
