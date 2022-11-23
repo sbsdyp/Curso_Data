@@ -11,7 +11,14 @@ select
     fe.session_id,
     fe.created_at as event_created_at,
     fe.order_id,
-    a.*
+    a.user_id,
+    a.created_at as user_created_at,
+    a.updated_at as user_updated_at,
+    a.address_id,
+    a.last_name,
+    a.first_name,
+    a.email,
+    a.phone_number
 
 from fct_events fe
 left join {{ ref("dim_users_addresses") }} a on fe.user_id = a.user_id
