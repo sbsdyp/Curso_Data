@@ -1,7 +1,7 @@
 {{ config(materialized="table") }}
 
 with
-    dim_users as (select * from {{ source("sql_server_dbo", "users") }}),
+    dim_users as (select * from {{ ref("stg_sql_server_users") }}),
 
     renamed_casted as (
         select
@@ -17,4 +17,4 @@ with
     )
 select rc.*, zipcode, country, address, state
 from renamed_casted rc
-left join {{ source("sql_server_dbo", "addresses") }} a on a.address_id = rc.address_id
+left join {{ ref("stg_sql_server_addresses") }} a on a.address_id = rc.address_id
