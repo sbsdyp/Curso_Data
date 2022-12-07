@@ -1,7 +1,8 @@
 {{ config(materialized="table") }}
 
 with
-    dim_users as (select * from {{ ref("stg_sql_server_users") }}),
+    dim_users as (select * from {{ ref('stg_sql_server_users') }}),
+    stg_addresses as (select * from {{ ref('stg_sql_server_addresses') }}),
 
     renamed_casted as (
         select
@@ -12,11 +13,11 @@ with
             last_name,
             first_name,
             email,
-            phone_number,
+            phone_number
              
         from dim_users
     )
-select 
+    select 
     rc.user_id,
     rc.user_created_at,
     rc.user_updated_at,
@@ -29,5 +30,6 @@ select
     country,
     address,
     state
-from renamed_casted rc
-left join {{ ref("stg_sql_server_addresses") }} a on a.address_id = rc.address_id
+    from renamed_casted rc
+        left join stg_addresses a 
+        on a.address_id = rc.address_id

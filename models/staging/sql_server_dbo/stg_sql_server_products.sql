@@ -2,6 +2,7 @@ with
     stg_ptoducts as (select * from {{ source("sql_server_dbo", "products") }}),
 
     renamed_casted as (
+
         select
             product_id,
             name,
@@ -11,6 +12,5 @@ with
             
         from stg_ptoducts
     )
-select *
-from renamed_casted 
+    select * from renamed_casted 
 

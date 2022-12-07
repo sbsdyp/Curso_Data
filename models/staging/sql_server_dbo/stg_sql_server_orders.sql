@@ -2,6 +2,7 @@ with
     stg_orders as (select * from {{ source("sql_server_dbo", "orders") }}),
 
     renamed_casted as (
+
         select
             order_id,
             order_cost,
@@ -10,7 +11,7 @@ with
             user_id,
             delivered_at,
             status,
-            promo_id,
+            md5((TRIM(promo_id)) as promo_sub_id,
             address_id,
             tracking_id,
             shipping_service,
@@ -21,8 +22,7 @@ with
             
         from stg_orders
     )
-select *
-from renamed_casted 
+    select * from renamed_casted 
 
 
 
