@@ -12,7 +12,8 @@ with
             last_name,
             first_name,
             email,
-            phone_number
+            phone_number,
+             
         from dim_users
     )
 select 

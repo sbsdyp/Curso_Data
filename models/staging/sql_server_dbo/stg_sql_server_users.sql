@@ -11,7 +11,8 @@ with
             last_name,
             first_name,
             email,
-            phone_number
+            phone_number,
+            
         from stg_users
     )
 select *

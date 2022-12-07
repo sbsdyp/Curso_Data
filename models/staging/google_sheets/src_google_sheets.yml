@@ -25,6 +25,11 @@ sources:
       - name: budget
         description: "Tabla previsiones de venta/Historico de ventas por producto/"
         columns:
+          - name: budget_id
+            description: "Clave subrogada para identificación de las promos"
+            test:
+              - unique
+              - not null
           - name: _row
             description: "Indicador de fila"
           - name: quantity

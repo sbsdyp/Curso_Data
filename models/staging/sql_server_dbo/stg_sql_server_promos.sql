@@ -13,3 +13,12 @@ with
 select *
 from renamed_casted 
 
+union all
+    select 
+    'no_promo',
+    'inactive',
+    0,
+    false,
+    sysdate() 
+    
+

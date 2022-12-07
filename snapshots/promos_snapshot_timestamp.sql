@@ -3,7 +3,7 @@
 {{
     config(
       target_schema='snapshots',
-      unique_key='product_id',
+      unique_key='promo_id',
       strategy='timestamp',
       updated_at='_fivetran_synced',
     )
