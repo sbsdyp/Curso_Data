@@ -182,6 +182,8 @@ sources:
             test:
               - not null
               - positive_values
+              - dbt_utils.expression_is_true:
+                  expression: "order_cost + shipping_cost = order_total"
             description: "coste total de pedido"
           - name: delivered_at
             description: "Fecha de envio, EL SISTEMA TRANSACCIONAL NO ME APORTA ESTE DATO Y NO HAY FORMA DE SACARLO"
