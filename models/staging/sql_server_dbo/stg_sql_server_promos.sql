@@ -7,8 +7,7 @@ with
            status,
            discount,
            _fivetran_deleted,
-           _fivetran_synced
-            
+           _fivetran_synced 
         from stg_promos
     )
 select *
