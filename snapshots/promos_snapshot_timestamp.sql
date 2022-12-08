@@ -10,7 +10,6 @@
 }}
 
 select 
-  promo_sub_id,
   promo_id,
   status,
   discount,

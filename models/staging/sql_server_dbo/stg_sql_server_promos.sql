@@ -4,7 +4,6 @@ with
     renamed_casted as (
 
         select
-           md5((TRIM(promo_id)) as promo_sub_id,
            promo_id,
            status,
            discount,
