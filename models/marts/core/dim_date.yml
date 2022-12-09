@@ -23,10 +23,7 @@ models:
 
       - name: id_anio_mes
         description: "Id año mes"
-        tests:
-          - relationships:
-              to: ref('fct_budget')
-              field: id_anio_mes
+
 
       - name: dia_previo
         description: "Día Anterior"
