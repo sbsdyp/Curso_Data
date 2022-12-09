@@ -2,6 +2,7 @@ with
     stg_orders as (select * from {{ source("sql_server_dbo", "orders") }}),
 
     renamed_casted as (
+
         select
             order_id,
             order_cost,
@@ -21,8 +22,7 @@ with
             
         from stg_orders
     )
-select *
-from renamed_casted 
+    select * from renamed_casted 
 
 
 

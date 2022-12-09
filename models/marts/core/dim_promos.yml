@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: dim_promos
+    description: "Dimension Promodciones"
+    columns:
+      - name: promo_id
+        description: "Identifiacador de promocicón"
+
+      - name: status
+        description: "Esto de la promoción"
+
+      - name: discount
+        description: "Descuento aplicado"

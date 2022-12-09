@@ -2,6 +2,7 @@ with
     stg_events as (select * from {{ source("sql_server_dbo", "events") }}),
 
     renamed_casted as (
+        
         select
             event_id,
             product_id,
@@ -16,5 +17,4 @@ with
             
         from stg_events
     )
-select *
-from renamed_casted 
+    select * from renamed_casted 

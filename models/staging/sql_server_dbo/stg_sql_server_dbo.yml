@@ -1,0 +1,176 @@
+version: 2
+
+models:
+  - name: stg_sql_server_addresses
+    description: ""
+    columns:
+      - name: address_id
+        description: "Identificación de dirección"
+
+      - name: zipcode
+        description: "Codigo postal"
+
+      - name: country
+        description: "Pais"
+
+      - name: address
+        description: "Dirección"
+
+      - name: state
+        description: "Estado"
+
+  - name: stg_sql_server_events
+    description: ""
+    columns:
+      - name: event_id
+        description: "Identificador de Evento"
+
+      - name: product_id
+        description: "Identificador Producto"
+
+      - name: session_id
+        description: "Identificador Sesión"
+
+      - name: page_url
+        description: "Url de evento"
+
+      - name: order_id
+        description: "Identificador de pedido"
+
+      - name: user_id
+        description: "Identificador de Usuario"
+
+      - name: event_type
+        description: "Tipo de Evento"
+
+      - name: created_at
+        description: "Fecha de creación del evento"
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+  - name: stg_sql_server_orderitems
+    description: ""
+    columns:
+      - name: order_id
+        description: "Identificador de pedido"
+
+      - name: product_id
+        description: "Identificador de producto"
+
+      - name: quantity
+        description: "Cantidad de producto pedido"
+
+  - name: stg_sql_server_orders
+    description: ""
+    columns:
+      - name: order_id
+        description: "Identificador de pedido"
+
+      - name: order_cost
+        description: ""
+
+      - name: shipping_cost
+        description: "Coste de pedido"
+
+      - name: order_total
+        description: "Coste de pedido"
+
+      - name: user_id
+        description: "Identificador de usuario en el pedido"
+
+      - name: delivered_at
+        description: "Fecha de envio"
+
+      - name: status
+        description: "Estado en el que se encuentra el pedido"
+
+      - name: promo_id
+        description: "Identificador de promoción"
+
+      - name: address_id
+        description: "Identificador de dirección de entrega"
+
+      - name: tracking_id
+        description: "Identificador de seguimiento de pedido"
+
+      - name: shipping_service
+        description: "Empresa de transportes"
+
+      - name: created_at
+        description: "Creación de Pedido"
+
+      - name: estimated_delivery_at
+        description: "Fecha estimada de entrega"
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+  - name: stg_sql_server_products
+    description: ""
+    columns:
+      - name: product_id
+        description: "Identificador de Producto"
+
+      - name: name
+        description: "Nombre de producto"
+
+      - name: inventory
+        description: "Cantidad de producto en inventario"
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+  - name: stg_sql_server_promos
+    description: ""
+    columns:
+      - name: promo_id
+        description: "Identificador de Promoción"
+
+      - name: status
+        description: "Estado de la promación"
+
+      - name: discount
+        description: "Cantidad de descuento"
+
+      - name: _fivetran_deleted
+        description: ""
+
+      - name: _fivetran_synced
+        description: ""
+
+  - name: stg_sql_server_users
+    description: ""
+    columns:
+      - name: user_id
+        description: "Identificador de usuario"
+
+      - name: user_created_at
+        description: "Fecha de creación del usuario"
+
+      - name: user_updated_at
+        description: "Fecha de actualización de usuario"
+
+      - name: address_id
+        description: "Identificador de dirección"
+
+      - name: last_name
+        description: "Apellido"
+
+      - name: first_name
+        description: "Nombre"
+
+      - name: email
+        description: "email usuario"
+
+      - name: phone_number
+        description: "telefono usuario"

@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: dim_addresses
+    description: "Dirección de envio y registro"
+    columns:
+      - name: address_id
+        description: "Identrificador de direcciones"
+
+      - name: zipcode
+        description: "Codigo postal"
+
+      - name: country
+        description: "Pais"
+
+      - name: address
+        description: "Dirección"
+
+      - name: state
+        description: "Estado"

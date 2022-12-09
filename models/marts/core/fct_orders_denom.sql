@@ -1,7 +1,15 @@
 {{ config(materialized="table") }}
 
-select
-    oin.order_id,
+with
+
+stg_server as ( select * from {{ ref('stg_sql_server_orders') }}),
+int_orderitems as ( select * from {{ ref('int_orderitems_name') }}),
+
+
+    fct_orders_denom as (
+    
+    select
+    o.order_id,
     oin.product_id,
     oin.name,
     oin.quantity,
@@ -17,10 +25,11 @@ select
     o.order_total,
     o.delivered_at,
     o.tracking_id,
-    o.status,
-    o._fivetran_deleted,
-    o._fivetran_synced
-     
-from {{ ref("stg_sql_server_orders") }} o
-inner join {{ ref("int_orderitems_name") }} oin
-on o.order_id = oin.order_id
+    o.status
+
+    from stg_server o
+        inner join int_orderitems oin 
+         on o.order_id = oin.order_id
+    )
+
+    select * from fct_orders_denom

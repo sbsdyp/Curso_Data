@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: int_orderitems_name
+    description: "Tabla intermedia para sacar el nombre a los productos pediddos"
+    columns:
+      - name: order_id
+        description: "Identificador de pedido"
+
+      - name: product_id
+        description: "Identificador de producto"
+
+      - name: name
+        description: "nombre de producto"
+
+      - name: quantity
+        description: "Cantidad de producto vendido"

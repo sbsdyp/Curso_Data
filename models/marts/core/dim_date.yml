@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: "Dimencion de tiempo"
+    columns:
+      - name: fecha_forecast
+        description: ""
+
+      - name: date_id
+        description: "Identificador de fecha completa"
+        tests:
+          - not_null
+          
+      - name: anio
+        description: "Año"
+
+      - name: mes
+        description: "Mes"
+
+      - name: desc_mes
+        description: "Mes anterior"
+
+      - name: id_anio_mes
+        description: "Id año mes"
+        tests:
+          - relationships:
+              to: ref('fct_budget')
+              field: id_anio_mes
+
+      - name: dia_previo
+        description: "Día Anterior"
+
+      - name: anio_semana_dia
+        description: "Año semana dia"
+
+      - name: semana
+        description: "Semana"

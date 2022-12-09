@@ -1,0 +1,14 @@
+ version: 2
+
+models:
+  - name: dim_products
+    description: ""
+    columns:
+      - name: product_id
+        description: "Identrificador de Producto"
+
+      - name: name
+        description: "Nombre de producto"
+
+      - name: inventory
+        description: "Cantidad de prodcuto en inventario"

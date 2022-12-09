@@ -2,6 +2,7 @@ with
     stg_promos as (select * from {{ source("sql_server_dbo", "promos") }}),
 
     renamed_casted as (
+
         select
            promo_id,
            status,
@@ -10,15 +11,8 @@ with
            _fivetran_synced 
         from stg_promos
     )
-select *
-from renamed_casted 
+    select * from renamed_casted 
 
-union all
-    select 
-    'no_promo',
-    'inactive',
-    0,
-    false,
-    sysdate() 
+
     
 

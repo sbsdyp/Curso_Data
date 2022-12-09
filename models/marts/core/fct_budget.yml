@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: fct_budget
+    description: "Previsiones de venta"
+    columns:
+      - name: budget_id
+        description: "Identificador de previsión"
+
+      - name: product_id
+        description: "Identificador de producto"
+
+      - name: quantity
+        description: "Cantidad"
+
+      - name: id_anio_mes
+        description: "Id mes año"

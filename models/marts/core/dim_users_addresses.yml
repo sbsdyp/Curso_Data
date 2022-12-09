@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: dim_users_addresses
+    description: "Dimensión Usuarios + Direcciones"
+    columns:
+      - name: user_id
+        description: "Identificador de usuarios"
+
+      - name: user_created_at
+        description: "Fecha de creación"
+
+      - name: user_updated_at
+        description: "Fecha actualización de usuario"
+
+      - name: address_id
+        description: "Identificador dirección"
+
+      - name: last_name
+        description: "Apellido"
+
+      - name: first_name
+        description: "Nombre"
+
+      - name: email
+        description: "email usuario"
+
+      - name: phone_number
+        description: "telefono usuario"
+
+      - name: zipcode
+        description: "codigo postal"
+
+      - name: country
+        description: "pais"
+
+      - name: address
+        description: "dirección"
+
+      - name: state
+        description: "estado"

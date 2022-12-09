@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: fct_orders_denom
+    description: "Tabla de hechos + order items, denormalizada"
+    columns:
+      - name: order_id
+        description: "Identificador de pedido"
+
+      - name: product_id
+        description: "Identificador de producto"
+
+      - name: name
+        description: "nombre de producto"
+
+      - name: quantity
+        description: "cantidad vendida de producto"
+
+      - name: shipping_service
+        description: "Empresa de envio"
+
+      - name: shipping_cost
+        description: "coste de envio"
+
+      - name: user_id
+        description: "Identificador de usuario"
+
+      - name: address_id
+        description: "Identificador de dirección"
+
+      - name: order_created
+        description: "Fecha de creación de pedido"
+
+      - name: created_at_id
+        description: "Id creación de pedido"
+
+      - name: promo_id
+        description: "Identificador de promoción"
+
+      - name: estimated_delivery_at
+        description: "Fecha estimada de entrega"
+
+      - name: order_cost
+        description: "Precio de pedidod"
+
+      - name: order_total
+        description: "Precio de pedido + envio"
+
+      - name: delivered_at
+        description: "Fecha de envio"
+
+      - name: tracking_id
+        description: "Identificador de envio"
+
+      - name: status
+        description: "Estado de envio"

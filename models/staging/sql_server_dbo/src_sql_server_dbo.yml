@@ -8,7 +8,7 @@ sources:
     schema: sql_server_dbo # SCHEMA AL QUE LLAMAMOS
     database: |  
         {%- if  target.name == 'user_dev' -%} dev_bronze_db_alumno27 
-        {%- elif target.name == 'ci' -%} dev_bronze_db_alumno27 
+        {%- elif target.name == 'ci' -%} pro_bronze_db_alumno27 
         {%- elif target.name == 'pro'-%} pro_bronze_db_alumno27 
         {%- else -%} {{target.database}}_bronze_db_alumno27
         {%- endif -%}
@@ -31,28 +31,26 @@ sources:
         description: "Direcciónes de usuarios"
         columns:
           - name: address_id
-            test:
+            tests:
               - unique
-              - not null
-              - relationships:
-                  to: source('sql_server_dbo','users')
-                  field: address_id
+              - not_null
+
             description: "Identificador de dirección"
           - name: country
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Pais"
           - name: zipcode
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Codigo postal"
           - name: address
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Dirección"
           - name: state
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Estado"
           - name: _fivetran_deleted
             description: ""
@@ -64,37 +62,36 @@ sources:
         description: "Tabla de eventos generados en la web"
         columns:
           - name: event_id
-            test:
+            tests:
               - unique
-              - not null
+              - not_null
             description: "Identificador de Evento"
           - name: product_id
-            test:
-              - not null
-              - relationships:
-                  to: source('sql_server_dbo','products')
-                  field: product_id
+            tests:
+              - not_null
             description: "Identificador Producto"
           - name: session_id
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Identificador Sesión"
           - name: page_url
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Url de evento"
           - name: order_id
-            test:
-              - unique
-              - not null
+            tests:
+              - not_null
             description: "Identificador de pedido"
           - name: user_id
-            test:
-              - not null
+            tests:
+              - not_null
+              - relationships:
+                  to: source('sql_server_dbo','users')
+                  field: user_id
             description: "Identificador de Usuario"
           - name: event_type
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Tipo de Evento"
           - name: created_at
             description: "Fecha de creación del evento"
@@ -137,19 +134,22 @@ sources:
         description: "Cantidades pedidas de productos"
         columns:
           - name: order_id
-            test:
-              - not null
+            tests:
+              - not_null
               - relationships:
-                  to: source('sql_server_dbo','events')
+                  to: source('sql_server_dbo','orders')
                   field: order_id
             description: "Identificador de pedido"
           - name: product_id
-            test:
-              - not null
+            tests:
+              - not_null
+              - relationships:
+                  to: source('sql_server_dbo','products')
+                  field: product_id
             description: "Identificador de producto"
           - name: quantity
-            test:
-              - not null
+            tests:
+              - not_null
               - positive_values
             description: "Cantidad de producto pedido"
           - name: _fivetran_deleted
@@ -162,60 +162,59 @@ sources:
         description: "Pedidos"
         columns:
           - name: order_id
-            test:
+            tests:
               - unique
-              - not null
-              - relationships:
-                  to: source('sql_server_dbo','order_items')
-                  field: order_id
+              - not_null
+
             description: "Identificador de Pedido"
           - name: order_cost
-            test:
-              - not null
+            tests:
+              - not_null
               - positive_values
             description: "coste de pedido"
           - name: user_id
-            test:
-              - not null
+            tests:
+              - not_null
+              - relationships:
+                  to: source('sql_server_dbo','users')
+                  field: user_id
             description: "Identificador de usuario en el pedido"
           - name: order_total
-            test:
-              - not null
+            tests:
+              - not_null
               - positive_values
-              - dbt_utils.expression_is_true:
-                  expression: "order_cost + shipping_cost = order_total"
             description: "coste total de pedido"
           - name: delivered_at
-            description: "Fecha de envio, EL SISTEMA TRANSACCIONAL NO ME APORTA ESTE DATO Y NO HAY FORMA DE SACARLO"
+            description: "Fecha de envio"
           - name: status
-            test:
-              - not null
+            tests:
+              - not_null
               - accepted_values: 
                   values: ['delivered','preparing','shipped']
             description: "Estado en el que se encuentra el pedido"
           - name: promo_id
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Identificador de promoción"
           - name: address_id
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Identificador de dirección de entrega"
           - name: tracking_id
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Identificador de seguimiento de pedido"
           - name: shipping_service
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Empresa de transportes"
           - name: created_at
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Creación de Pedido"
           - name: shipping_cost
-            test:
-              - not null
+            tests:
+              - not_null
               - positive_values
             description: "Costes de envio"
           - name: estimated_delivery_at
@@ -226,28 +225,24 @@ sources:
             description: "Fecha de sincronización"
 
       - name: products
-#        loaded_at_field: _fivetran_synced
+#       loaded_at_field: _fivetran_synced
         description: "Productos dados de alta"
         columns:
           - name: product_id
-
             description: "Identificador de Producto"
           - name: name
-            test:
+            tests:
               - unique
-              - not null
-              - relationships:
-                  to: source('sql_server_dbo','events')
-                  field: product_id
+              - not_null
             description: "Nombre de producto"
           - name: inventory
-            test:
-              - not null
+            tests:
+              - not_null
               - positive_values
             description: "Cantidad en Stock"
           - name: price
-            test:
-              - not null
+            tests:
+              - not_null
               - positive_values
             description: "Precio Unitario"
           - name: _fivetran_deleted
@@ -260,22 +255,19 @@ sources:
         description: "Promociones"
         columns:
           - name: promo_id
-            test:
+            tests:
               - unique
-              - not null
-              - relationships:
-                  to: source('sql_server_dbo','orders')
-                  field: promo_id
+              - not_null
             description: "Identificador de Promoción"
           - name: status
-            test:
-              - not null
+            tests:
+              - not_null
               - accepted_values: 
                   values: ['inactive','active']
             description: "Si la promoción se encuentra activa o inactiva"
           - name: discount
-            test:
-              - not null
+            tests:
+              - not_null
               - positive_values
             description: "Cantidad en porcentaje de descuento"
           - name: _fivetran_deleted
@@ -288,43 +280,40 @@ sources:
         description: "Usuarios registrados"
         columns:
           - name: user_id
-            test:
+            tests:
               - unique
-              - not null
-              - relationships:
-                  to: source('sql_server_dbo','orders')
-                  field: user_id
+              - not_null
             description: "Identificador de Usuario"
           - name: created_at
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Fecha de alta"
           - name: updated_at
             description: "Fecha de actualización de datos de usuario"
           - name: address_id
-            test:
-              - not null
+            tests:
+              - not_null
+              - relationships:
+                  to: source('sql_server_dbo','addresses')
+                  field: address_id
             description: "Identificador de datos"
           - name: last_name
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Apellidos"
           - name: total_orders
-            test:
-              - not null
-              - positive_values
             description: "Pedidos realizados por usuario"
           - name: first_name
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Nombre propio"
           - name: email
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Email"
           - name: phone_number
-            test:
-              - not null
+            tests:
+              - not_null
             description: "Telefono de contacto"
           - name: _fivetran_deleted
             description: ""

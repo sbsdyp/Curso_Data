@@ -1,10 +1,17 @@
 {{ config(materialized="table") }}
 
-    select 
+with
+stg_addresses as (select * from {{ ref("stg_sql_server_addresses") }}),
+
+    dim_addresses as (
+    
+    select
             address_id,
             zipcode,
             country,
             address,
             state
     
-    from {{ ref("stg_sql_server_addresses") }}
+    from stg_addresses
+    )
+    select * from dim_addresses
