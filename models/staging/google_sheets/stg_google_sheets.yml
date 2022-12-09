@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_google_sheets
+    description: ""
+    columns:
+      - name: budget_id
+        description: "Tabla previsiones de venta/Historico de ventas por producto"
+        tests:
+          - unique
+          - not_null
+      - name: _row
+        description: "Indicador de fila"
+
+      - name: product_id
+        description: "Identificador de producto"
+
+      - name: quantity
+        description: "Cantidad prevista"
+
+      - name: month
+        description: "Mes de registro"
+
+      - name: date_load
+        description: "Dato de Fivetran"
+
+
+
+
+

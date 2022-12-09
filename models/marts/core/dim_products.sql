@@ -8,9 +8,7 @@ stg_products as (select * from {{ ref("stg_sql_server_products") }}),
     select
         product_id,
         name,
-        inventory,
-        _fivetran_deleted,
-        _fivetran_synced
+        inventory
     
     from stg_products
     )

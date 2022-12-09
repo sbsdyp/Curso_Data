@@ -11,7 +11,7 @@ with
             user_id,
             delivered_at,
             status,
-            md5((TRIM(promo_id)) as promo_sub_id,
+            promo_id,
             address_id,
             tracking_id,
             shipping_service,

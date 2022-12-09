@@ -9,7 +9,7 @@ int_orderitems as ( select * from {{ ref('int_orderitems_name') }}),
     fct_orders_denom as (
     
     select
-    oin.order_id,
+    o.order_id,
     oin.product_id,
     oin.name,
     oin.quantity,
@@ -25,9 +25,8 @@ int_orderitems as ( select * from {{ ref('int_orderitems_name') }}),
     o.order_total,
     o.delivered_at,
     o.tracking_id,
-    o.status,
-    o._fivetran_deleted,
-    o._fivetran_synced
+    o.status
+
     from stg_server o
         inner join int_orderitems oin 
          on o.order_id = oin.order_id

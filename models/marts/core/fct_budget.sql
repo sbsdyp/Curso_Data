@@ -7,11 +7,9 @@ stg_budget as (select * from {{ ref("stg_google_sheets") }}),
 
     select
         budget_id,
-        _row,
         product_id,
         quantity,
-        year(month)*10000+month(month)*100+day(month) as month_id,
-        date_load
+        year(month)*100+month(month)+day(month) as id_anio_mes
            
     from stg_budget
     )

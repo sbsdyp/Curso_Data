@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fct_events
+    description: "Tabla de hechos de eventos ocurridos en la web"
+    columns:
+      - name: event_id
+        description: "Identificador de evento"
+
+      - name: product_id
+        description: "Identificador de producto"
+
+      - name: session_id
+        description: "Identificador de sesión"
+
+      - name: page_url
+        description: "Url del evento"
+
+      - name: order_id
+        description: "Identificador de pedido"
+
+      - name: user_id
+        description: "Identificador de usuario"
+
+      - name: event_type
+        description: "Tipo de envento"
+
+      - name: created_at
+        description: "Fecha de creación"
+
+      - name: created_at_id
+        description: "Id fecha de creación"
+        test:
+          - not null
+  
