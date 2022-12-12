@@ -1,4 +1,4 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental") }}
 
 with
 stg_budget as (select * from {{ ref("stg_google_sheets") }}),
@@ -14,3 +14,9 @@ stg_budget as (select * from {{ ref("stg_google_sheets") }}),
     from stg_budget
     )
     select * from fct_budget
+
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}

@@ -1,4 +1,4 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental") }}
 
 with
 
@@ -18,4 +18,10 @@ stg_products as (select * from {{ ref("stg_sql_server_products") }} ),
     )
 
     select * from int_orderitems_name
+
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}
 

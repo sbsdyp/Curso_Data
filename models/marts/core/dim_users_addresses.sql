@@ -1,4 +1,4 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental") }}
 
 with
     dim_users as (select * from {{ ref('stg_sql_server_users') }}),
@@ -33,3 +33,9 @@ with
     from renamed_casted rc
         left join stg_addresses a 
         on a.address_id = rc.address_id
+
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}

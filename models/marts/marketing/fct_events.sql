@@ -1,4 +1,4 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental") }}
 
 with
 stg_events as (select * from {{ ref("stg_sql_server_events") }}),
@@ -20,6 +20,12 @@ stg_events as (select * from {{ ref("stg_sql_server_events") }}),
     from stg_events
     )
     select * from fct_events
+
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}
 
 
  

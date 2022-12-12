@@ -1,4 +1,4 @@
-{{ config(materialized="table") }}
+{{ config(materialized="incremental") }}
 
 with
 
@@ -33,3 +33,9 @@ int_orderitems as ( select * from {{ ref('int_orderitems_name') }}),
     )
 
     select * from fct_orders_denom
+
+{% if is_incremental() %}
+
+  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
+
+{% endif %}
