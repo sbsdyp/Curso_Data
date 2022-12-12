@@ -6,7 +6,8 @@ with
         select
             order_id,
             product_id,
-            quantity
+            quantity,
+            _fivetran_synced
             
         from stg_order_items
     )

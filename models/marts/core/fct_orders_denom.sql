@@ -25,7 +25,8 @@ int_orderitems as ( select * from {{ ref('int_orderitems_name') }}),
     o.order_total,
     o.delivered_at,
     o.tracking_id,
-    o.status
+    o.status,
+    o._fivetran_synced
 
     from stg_server o
         inner join int_orderitems oin 
