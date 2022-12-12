@@ -1,4 +1,4 @@
-{{ config(materialized='incremental') }}
+{{ config(materialized='table') }}
 
 with
     dim_users as (select * from {{ ref('stg_sql_server_users') }}),
@@ -13,10 +13,10 @@ with
             last_name,
             first_name,
             email,
-            phone_number,
-            _fivetran_synced
-                     
-        from dim_users
+            phone_number
+            
+                                 
+        from dim_users 
     )
 
 
@@ -32,15 +32,10 @@ with
     a.zipcode,
     a.country,
     a.address,
-    a.state,
-    rc._fivetran_synced
+    a.state
+
     
     from dim_users_addresses rc
         left join stg_addresses a 
         on a.address_id = rc.address_id
 
-{% if is_incremental() %}
-
-  where _fivetran_synced > (select max(_fivetran_synced) from {{ this }})
-
-{% endif %}

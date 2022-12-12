@@ -15,6 +15,7 @@ with
             phone_number,
             _fivetran_synced
             
+            
         from stg_users
     )
     select * from renamed_casted 
