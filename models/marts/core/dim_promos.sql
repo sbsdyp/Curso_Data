@@ -8,7 +8,8 @@ stg_promos as (select * from {{ ref("stg_sql_server_promos") }}),
     select
            promo_id,
            status,
-           discount
+           discount,
+           _fivetran_synced
     
     from stg_promos
     )

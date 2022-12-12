@@ -10,7 +10,8 @@ stg_addresses as (select * from {{ ref("stg_sql_server_addresses") }}),
             zipcode,
             country,
             address,
-            state
+            state,
+            _fivetran_synced
     
     from stg_addresses
     )

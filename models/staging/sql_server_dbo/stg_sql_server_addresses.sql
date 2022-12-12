@@ -8,7 +8,9 @@ with
             zipcode,
             country,
             address,
-            state
+            state,
+            _fivetran_synced
+            
         from stg_addresses
     )
     select * from renamed_casted

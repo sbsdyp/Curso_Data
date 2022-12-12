@@ -14,7 +14,8 @@ stg_events as (select * from {{ ref("stg_sql_server_events") }}),
         user_id,
         event_type,
         created_at,
-        year(created_at)*10000+month(created_at)*100+day(created_at) as created_at_id
+        year(created_at)*10000+month(created_at)*100+day(created_at) as created_at_id,
+        _fivetran_synced
 
             
     from stg_events

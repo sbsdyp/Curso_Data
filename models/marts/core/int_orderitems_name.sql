@@ -11,7 +11,9 @@ stg_products as (select * from {{ ref("stg_sql_server_products") }} ),
         oi.order_id,
         oi.product_id,
         p.name,
-        oi.quantity
+        oi.quantity,
+        oi._fivetran_synced
+        
     from stg_orderitems oi
          left join stg_products p
          on oi.product_id = p.product_id
